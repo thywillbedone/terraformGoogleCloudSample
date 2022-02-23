@@ -11,11 +11,15 @@ resource "google_compute_network" "mynetwork" {
 # Add a firewall rule to allow HTTP, SSH, RDP, and ICMP traffic on mynetwork
 resource "google_compute_firewall" "mynetwork-allow-http-ssh-rdp-icmp" {
   name    = "mynetwork-tf-allow-http-ssh-rdp-icmp"
-  network = google_compute_network.mynetwork.self_link
+  network = google_compute_network.mynetwork.name
   allow {
     protocol = "tcp"
     ports    = ["22", "80", "8080"]
   }
+  
+  # firewall will apply  to traffic that has source IP address in these ranges, any IP: 0.0.0.0/0
+  source_ranges = ["0.0.0.0/0"]   
+
   allow {
     protocol = "icmp"
   }
@@ -98,15 +102,15 @@ resource "null_resource" "execute" {
       "sudo apt install docker-ce -y",
       "sudo usermod -aG docker $${USER}",
       # Instalacion de docker composer
-      "sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose",
+      "sudo curl -L https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose",
       "sudo chmod +x /usr/local/bin/docker-compose",
       # Instalacion de Java jdk 8
       "sudo apt install openjdk-8-jdk -y",
       "echo JAVA_HOME=\"/usr/lib/jvm/java-8-openjdk-amd64/jre\" | sudo tee -a /etc/environment",
-      # Instalacion de Node JS
-      "curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -",
+      # Instalacion de Node JS 16
+      "curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -",
       "sudo apt-get install -y nodejs",
-      "sudo apt install npm -y"
+      "sudo apt-get install npm -y"
 
     ]
     on_failure = continue

@@ -5,17 +5,18 @@
 
 variable "gcp_project" {
   # Configurar el nombre del proyecto en GCP
-  default = "cnsa-2021"
+  default = "cnsa-2022"
 }
 
 terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "3.58.0"
+      version = "4.11.0"
     }
   }
 }
+
 provider "google" {
   project = var.gcp_project
   region  = "us-central1"
