@@ -32,7 +32,7 @@ module "jenkins-vm" {
   instance_region = "us-central1"
   instance_zone   = "us-central1-a"
   instance_type   = "n1-standard-2"
-  image           = "ubuntu-os-cloud/ubuntu-1804-lts"
+  image           = "ubuntu-os-cloud/ubuntu-2004-lts" # ubuntu-1804-lts"
   #  startup_script      = "${var.init_scrip_docker}"
   instance_subnetwork = google_compute_network.mynetwork.self_link
 }
@@ -44,7 +44,7 @@ module "web-deploy-vm" {
   instance_region = "us-central1"
   instance_zone   = "us-central1-a"
   instance_type   = "n1-standard-1"
-  image           = "ubuntu-os-cloud/ubuntu-1804-lts"
+  image           = "ubuntu-os-cloud/ubuntu-2004-lts"  #ubuntu-1804-lts"  
   #  startup_script      = "${var.init_scrip_apache2}"
   instance_subnetwork = google_compute_network.mynetwork.self_link
 }
@@ -64,6 +64,7 @@ resource "null_resource" "execute" {
     inline = [
       "sudo apt-get update -y",
       "echo '* libraries/restart-without-asking boolean true' | sudo debconf-set-selections",
+      "echo 'debconf debconf/frontend select Noninteractive'  | sudo debconf-set-selections",
       "sudo apt-get upgrade -y",
       "sudo apt-get install -y python-minimal",
       "sudo timedatectl set-timezone Europe/Madrid",
@@ -91,6 +92,7 @@ resource "null_resource" "execute" {
     inline = [
       "sudo apt-get update -y",
       "echo '* libraries/restart-without-asking boolean true' | sudo debconf-set-selections",
+      "echo 'debconf debconf/frontend select Noninteractive'  | sudo debconf-set-selections",
       "sudo apt-get upgrade -y",
       "sudo apt-get install -y python-minimal",
       "sudo timedatectl set-timezone Europe/Madrid",
