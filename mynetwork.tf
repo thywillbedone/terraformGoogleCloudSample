@@ -71,9 +71,9 @@ resource "null_resource" "execute" {
       # Instalacion de docker
       "sudo apt install apt-transport-https ca-certificates curl software-properties-common -y",
       "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
-      "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'",
+      "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'",
       "sudo apt update -y",
-      "sudo apt install docker-ce -y",
+      "sudo apt install docker-ce docker-ce-cli containerd.io -y",
       "sudo usermod -aG docker $${USER}",
     ]
     on_failure = continue
@@ -99,9 +99,9 @@ resource "null_resource" "execute" {
       # Instalacion de docker       
       "sudo apt install apt-transport-https ca-certificates curl software-properties-common -y",
       "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
-      "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'",
+      "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'",
       "sudo apt update -y",
-      "sudo apt install docker-ce -y",
+      "sudo apt install docker-ce docker-ce-cli containerd.io -y",
       "sudo usermod -aG docker $${USER}",
       # Instalacion de docker composer
       "sudo curl -L https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose",
